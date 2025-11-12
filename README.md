@@ -212,29 +212,6 @@ MIT License / CC BY-SA 4.0 — Free for educational use with attribution
 - Quality improvement methodologies informing this approach
 - Cardiology professionals who've shaped my clinical expertise
 
----
-
-## 🎯 Career Goals
-
-### Short-Term (6-12 months)
-- Complete Epic Cupid fundamentals self-study
-- Publish 50+ educational infographics on cardiovascular informatics
-- Network with Epic Cupid consultants and MEA healthcare IT leaders
-- Pursue CPHIMS certification
-
-### Medium-Term (1-2 years)
-- Obtain Epic Cupid Proficiency certification
-- Secure Epic Cupid consultant role (in-house or consulting firm)
-- Lead first MEA Epic Cupid implementation
-- Contribute to Epic UserWeb community
-
-### Long-Term (3-5 years)
-- Become recognized Epic Cupid subject matter expert for MEA region
-- Lead large-scale multi-site Epic Cupid deployments
-- Mentor aspiring Epic consultants from clinical backgrounds
-- Publish thought leadership on cardiovascular informatics
-
----
 
 ## 📈 Why Hire Me?
 
