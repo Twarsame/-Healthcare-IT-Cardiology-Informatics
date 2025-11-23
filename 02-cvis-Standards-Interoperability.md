@@ -101,6 +101,65 @@ ORC|NW|ORD98765|||||^^^20251124080000
 OBR|1|ORD98765||ECHO^Transthoracic Echocardiogram|||20251124080000
 ```
 
+graph TD
+    classDef msh fill:#FF6B6B,stroke:#333,stroke-width:2px,color:#000,font-size:16px
+    classDef pid fill:#4ECDC4,stroke:#333,stroke-width:2px,color:#000,font-size:16px
+    classDef orc fill:#45B7D1,stroke:#333,stroke-width:2px,color:#000,font-size:16px
+    classDef obr fill:#96CEB4,stroke:#333,stroke-width:2px,color:#000,font-size:16px
+    ---
+
+graph LR
+    MSH["<b>MSH - Message Header</b><br/>━━━━━━━━━━━━━━━━━━<br/>📤 Sending: EPIC<br/>📥 Receiving: CUPID<br/>📋 Type: ORM^O01<br/>🆔 ID: MSG00001<br/>⏰ Time: 20251123140500"]
+    
+    PID["<b>PID - Patient ID</b><br/>━━━━━━━━━━━━━━━━━━<br/>🏥 MRN: MRN123456<br/>👤 Name: DOE^JOHN^A<br/>🎂 DOB: 19700515<br/>⚧ Gender: M<br/>🏠 Address: 123 MAIN ST"]
+    
+    ORC["<b>ORC - Order Control</b><br/>━━━━━━━━━━━━━━━━━━<br/>✨ Control: NW<br/>📝 Order: ORD98765<br/>📅 DateTime: 20251124080000"]
+    
+    OBR["<b>OBR - Observation Request</b><br/>━━━━━━━━━━━━━━━━━━<br/>🔢 Set ID: 1<br/>📝 Order: ORD98765<br/>❤️ Procedure: ECHO<br/>Transthoracic Echo<br/>📅 DateTime: 20251124080000"]
+    
+    MSH -->|Patient Info| PID
+    PID -->|Order Details| ORC
+    ORC -->|Procedure Request| OBR
+    
+    classDef msh fill:#FF6B6B,stroke:#8B0000,stroke-width:3px,color:#FFFFFF
+    classDef pid fill:#4ECDC4,stroke:#006B7D,stroke-width:3px,color:#000000
+    classDef orc fill:#FFD93D,stroke:#B8860B,stroke-width:3px,color:#000000
+    classDef obr fill:#6BCF7F,stroke:#228B22,stroke-width:3px,color:#000000
+    
+    class MSH msh
+    class PID pid
+    class ORC orc
+    class OBR obr
+
+---
+## HL7 Messages and Echocardiogram Orders
+
+If you're new to healthcare IT, the diagrams above might look complex, but they represent something simple: **how hospitals send echocardiogram orders electronically between systems.**
+
+### What is HL7?
+
+HL7 (Health Level 7) is like a **common language** that different hospital computer systems use to talk to each other. Think of it as the "postal service" for medical information.
+
+### Understanding the Message Flow
+
+The diagram shows how an echocardiogram order travels through four key segments:
+
+- **MSH (Message Header):** This is like the envelope of a letter. It tells which system sent the message (EPIC) and which one should receive it (CUPID), along with when it was sent and what type of message it is.
+- **PID (Patient Identification):** This contains the patient's basic information - their medical record number, name, date of birth, gender, and address. It ensures the test is done on the right person.
+- **ORC (Order Control):** This segment says what's happening with the order. "NW" means it's a **New Order**. It includes the order number and when the order was placed.
+- **OBR (Observation Request):** This is the actual test being ordered - in this case, a **Transthoracic Echocardiogram** (a type of heart ultrasound). It includes details about what procedure needs to be done and when.
+
+### Why This Matters
+
+This automated system ensures that:
+
+- Orders don't get lost or misplaced
+- The right test is scheduled for the right patient
+- Information flows smoothly between the doctor's ordering system and the imaging department
+- Everything is documented with timestamps for quality and safety tracking
+
+**In simple terms:** When a doctor orders an echocardiogram in their computer system (EPIC), this HL7 message automatically creates the order in the imaging system (CUPID), making sure all the patient information and test details are correct - no phone calls or paperwork needed!
+---
 **Translation**:
 - **MSH**: Message header (Epic sending to Cupid)
 - **PID**: Patient John Doe, MRN 123456
@@ -172,48 +231,61 @@ OBR|1|ORD98765||ECHO^Transthoracic Echocardiogram|||20251124080000
 **IHE ECHO Profile Workflow** (Simplified):
 
 Below is a detailed sequence diagram showing the IHE ECHO workflow from order creation to final report. This diagram uses vivid colors to distinguish between different systems and message types, making it easy to follow the data flow.
+---
 
-```mermaid
 sequenceDiagram
     participant Epic as 🏥 Epic EHR
     participant Cupid as 🫀 Epic Cupid
     participant Echo as 📡 Echo Machine
     participant PACS as 💾 PACS
-    
-    Note over Epic,PACS: 1️⃣ ORDER PHASE (HL7)
-    Epic-&gt;&gt;Cupid: HL7 ORM (Procedure Order)
-    Cupid-&gt;&gt;Epic: HL7 ACK (Order Accepted)
-    
-    Note over Epic,PACS: 2️⃣ SCHEDULING PHASE (HL7)
-    Cupid-&gt;&gt;Epic: HL7 SIU (Appointment Scheduled)
-    Epic-&gt;&gt;Cupid: HL7 ACK (Schedule Updated)
-    
-    Note over Epic,PACS: 3️⃣ ACQUISITION PHASE (DICOM)
-    Note over Echo: Sonographer logs into Echo machine
-    Cupid-&gt;&gt;Echo: DICOM Modality Worklist Query
-    Echo-&gt;&gt;Cupid: Patient Demographics from MWL
-    Note over Echo: Perform echo exam
-    Echo-&gt;&gt;PACS: DICOM C-STORE (Images + SR)
-    PACS-&gt;&gt;Echo: DICOM Storage Confirmation
-    
-    Note over Epic,PACS: 4️⃣ REVIEW PHASE (DICOM)
-    Note over Cupid: Cardiologist opens Cupid
-    Cupid-&gt;&gt;PACS: DICOM Query/Retrieve
-    PACS-&gt;&gt;Cupid: DICOM Images for Review
-    
-    Note over Epic,PACS: 5️⃣ RESULTS PHASE (HL7)
-    Note over Cupid: Cardiologist signs report
-    Cupid-&gt;&gt;Epic: HL7 ORU (Preliminary Results)
-    Cupid-&gt;&gt;Epic: HL7 MDM (Final Report with Note)
-    Epic-&gt;&gt;Cupid: HL7 ACK (Report Received)
-    
-    rect rgb(230, 240, 255)
-    Note right of Epic: Blue background: HL7 messaging
+
+    %% Phase 1: ORDER PHASE
+    Note over Epic,PACS: 🔵 PHASE 1: ORDER (HL7)
+    rect rgba(255, 107, 107, 0.3)
+        Epic->>+Cupid: HL7 ORM (Procedure Order)
+        Cupid->>-Epic: HL7 ACK (Order Accepted)
     end
-    
-    rect rgb(230, 255, 240)
-    Note right of PACS: Green background: DICOM imaging
+
+    %% Phase 2: SCHEDULING PHASE
+    Note over Epic,PACS: 🟠 PHASE 2: SCHEDULING (HL7)
+    rect rgba(255, 167, 38, 0.3)
+        Cupid->>+Epic: HL7 SIU (Appointment Scheduled)
+        Epic->>-Cupid: HL7 ACK (Schedule Updated)
     end
+
+    %% Phase 3: ACQUISITION PHASE
+    Note over Epic,PACS: 🟢 PHASE 3: ACQUISITION (DICOM)
+    Note right of Echo: 🔷 Sonographer logs into Echo machine
+    rect rgba(66, 165, 245, 0.3)
+        Cupid->>+Echo: DICOM Modality Worklist Query
+        Echo->>-Cupid: Patient Demographics from MWL
+        Note right of Echo: 🩺 Perform echo exam
+        Echo->>+PACS: DICOM C-STORE (Images + SR)
+        PACS->>-Echo: DICOM Storage Confirmation
+    end
+
+    %% Phase 4: REVIEW PHASE
+    Note over Epic,PACS: 🟣 PHASE 4: REVIEW (DICOM)
+    Note right of Cupid: 👨‍⚕️ Cardiologist opens Cupid
+    rect rgba(102, 187, 106, 0.3)
+        Cupid->>+PACS: DICOM Query/Retrieve
+        PACS->>-Cupid: DICOM Images for Review
+    end
+
+    %% Phase 5: RESULTS PHASE
+    Note over Epic,PACS: 🟪 PHASE 5: RESULTS (HL7)
+    Note right of Cupid: ✍️ Cardiologist signs report
+    rect rgba(171, 71, 188, 0.3)
+        Cupid->>+Epic: HL7 ORU (Preliminary Results)
+        Cupid->>Epic: HL7 MDM (Final Report with Note)
+        Epic->>-Cupid: HL7 ACK (Report Received)
+    end
+
+    %% Legend
+    Note left of Epic: 📋 PROTOCOL LEGEND<br/>🔵 HL7: Clinical Data Exchange<br/>🟢 DICOM: Medical Imaging Data
+    Note right of PACS: 🎨 PHASE COLORS<br/>🔴 Red: Order<br/>🟠 Orange: Schedule<br/>🔵 Blue: Acquire<br/>🟢 Green: Review<br/>🟣 Purple: Results
+
+
 ```
 
 **Diagram Description**: This sequence diagram shows the complete IHE ECHO workflow across five phases. Blue-highlighted sections indicate HL7 messaging (clinical data exchange), while green-highlighted sections show DICOM imaging (image storage and retrieval). The numbered phases (1-5) guide you through the chronological flow from initial order to final report. Each arrow represents a specific message type, with acknowledgments (ACK) confirming successful receipt.
@@ -308,44 +380,6 @@ graph TD
     style E fill:#50C878,stroke:#3A9B5C,color:#fff
     style G fill:#FF6B6B,stroke:#CC5555,color:#fff
     style H fill:#FFD93D,stroke:#CCB030,color:#333
-
----
-
-
-
-
-```json
-{
-  "resourceType": "DiagnosticReport",
-  "id": "echo-report-12345",
-  "status": "final",
-  "category": {
-    "coding": [{
-      "system": "http://loinc.org",
-      "code": "34112-3",
-      "display": "Echocardiography Report"
-    }]
-  },
-  "code": {
-    "coding": [{
-      "system": "http://loinc.org",
-      "code": "18752-6",
-      "display": "Transthoracic Echocardiogram"
-    }]
-  },
-  "subject": {
-    "reference": "Patient/MRN123456",
-    "display": "John Doe"
-  },
-  "effectiveDateTime": "2025-11-24T08:00:00Z",
-  "result": [
-    {
-      "reference": "Observation/lvef-measurement",
-      "display": "LVEF 55%"
-    }
-  ],
-  "conclusion": "Normal LV systolic function. No significant valvular disease."
-}
 ```
 
 **Consultant Insight**: FHIR is *not* replacing HL7 v2.x for real-time clinical operations (orders, results) in the near term (2025–2030). Instead, it's a complementary layer for patient access, payer exchange, and research. When clients ask "Should we migrate from HL7 to FHIR?", the answer is: "Hybrid architecture—HL7 for mission-critical workflows, FHIR for external APIs."
