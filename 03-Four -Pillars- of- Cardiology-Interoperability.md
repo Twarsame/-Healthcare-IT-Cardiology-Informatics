@@ -94,11 +94,12 @@ graph TB
 **Example HL7 ORM Message** (Procedure Order):
 
 ```
-MSH|^~\&amp;|EPIC|HOSPITAL|CUPID|CVIS|20251123140500||ORM^O01|MSG00001|P|2.5
-PID|1||MRN123456^^^HOSPITAL^MR||DOE^JOHN^A||19700515|M|||123 MAIN ST^^CITY^^12345
-ORC|NW|ORD98765|||||^^^20251124080000
-OBR|1|ORD98765||ECHO^Transthoracic Echocardiogram|||20251124080000
-```
+s
+    
+    
+
+
+
 
 **Translation**:
 - **MSH**: Message header (Epic sending to Cupid)
@@ -232,7 +233,54 @@ The table below maps each integration point to its corresponding standard and IH
 | Image retrieval | DICOM Q/R | — | Pull images into Cupid for cardiologist review |
 | Results reporting | HL7 ORU/MDM | ECHO | Send preliminary and final reports to Epic chart |
 | Quality measurement | DICOM SR | CIRC | Extract structured data for registry submission |
+---
 
+sequenceDiagram
+    participant EPIC
+    participant HOSPITAL
+    participant CUPID
+    participant CVIS
+    
+   ---
+sequenceDiagram
+    participant Epic as Epic EHR
+    participant Cupid as Epic Cupid (CVIS)
+    
+---
+
+sequenceDiagram
+    participant E as Epic EHR
+    participant C as Epic Cupid CVIS
+    
+    Note over E,C: HL7 v2.5 ORM^O01 Message
+    
+    E->>C: MSH Segment
+    Note right of C: MSH|^~\&|EPIC|HOSPITAL|CUPID|CVIS<br/>Timestamp: 20251123140500<br/>Control ID: MSG00001
+    
+    E->>C: PID Segment
+    Note right of C: PID|1||MRN123456^^^HOSPITAL^MR<br/>Name: DOE^JOHN^A<br/>DOB: 19700515, Gender: M
+    
+    E->>C: ORC Segment
+    Note right of C: ORC|NW|ORD98765<br/>Order Status: New Order<br/>Scheduled: 20251124080000
+    
+    E->>C: OBR Segment
+    Note right of C: OBR|1|ORD98765||ECHO<br/>Procedure: Transthoracic Echo
+    
+    C-->>E: ACK
+    Note left of E: Order registered successfully
+
+
+
+---
+### 💡 Pro Tip for Your Epic Cupid Portfolio
+
+When showcasing this in your GitHub portfolio or LinkedIn, add this context:
+
+> *"This diagram demonstrates my understanding of HL7 v2.5 message structure in Epic Cupid integrations. I can translate complex interoperability standards into clear visual documentation for both technical and clinical stakeholders—a critical skill for Epic consultants working across IT and cardiology departments."*
+>
+
+
+---
 **Consultant Insight**: When evaluating new echo machines or PACS vendors, *always* ask for their IHE Integration Statement (a document listing which profiles they support). If a vendor claims IHE ECHO compliance, request proof from their Connectathon participation.
 
 ---
