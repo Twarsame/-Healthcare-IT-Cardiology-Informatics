@@ -510,3 +510,4 @@ CVIS success depends on comprehensive data integration that supports clinical de
 
 **🔙 Back to Curriculum Home** | **➡️ Next: 02-standards-interoperability**
 
+
