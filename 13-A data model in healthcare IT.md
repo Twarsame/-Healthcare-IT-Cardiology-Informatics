@@ -528,3 +528,159 @@ Data flows from transactional to analytical storage through two methods:
 - ✅ **Data Partitioning:** Date-based partitioning for efficient historical queries
 - ✅ **Flexible ETL:** Both batch and streaming options for data synchronization
 - ✅ **Scalability:** Architecture supports growing data volumes without performance degradation
+
+---
+
+### Integration Layer Diagram
+```mermaid
+graph TB
+    subgraph EXT["🌐 EXTERNAL SYSTEMS"]
+        direction LR
+        EHR["<b>📋 EHR</b><br/><br/>Electronic Health<br/>Records System"]
+        LAB["<b>🧪 LAB</b><br/><br/>Laboratory<br/>Information System"]
+        PACS["<b>🖼️ PACS</b><br/><br/>Picture Archiving<br/>Communication"]
+        BIL["<b>💰 BILLING</b><br/><br/>Billing &<br/>Insurance System"]
+        PHAR["<b>💊 PHARMACY</b><br/><br/>Pharmacy<br/>Management"]
+    end
+    
+    subgraph INT["🔗 INTEGRATION LAYER"]
+        direction TB
+        
+        subgraph ENTRY["ENTRY POINT"]
+            API["<b>🚪 API GATEWAY</b><br/>━━━━━━━━━━━━━<br/>✓ Authentication<br/>✓ Rate Limiting<br/>✓ Load Balancing<br/>✓ Security"]
+        end
+        
+        subgraph PROC["PROCESSING SERVICES"]
+            INTF["<b>⚙️ INTERFACE SERVICES</b><br/>━━━━━━━━━━━━━<br/>✓ Protocol Translation<br/>✓ Message Routing<br/>✓ Error Handling"]
+            
+            MAP["<b>🗺️ DATA MAPPING</b><br/>━━━━━━━━━━━━━<br/>✓ Schema Transform<br/>✓ Field Mapping<br/>✓ Format Conversion"]
+            
+            VAL["<b>✅ VALIDATION</b><br/>━━━━━━━━━━━━━<br/>✓ Quality Checks<br/>✓ Business Rules<br/>✓ Compliance"]
+        end
+        
+        subgraph QUEUE_SYS["MESSAGE HANDLING"]
+            QUEUE["<b>📬 MESSAGE QUEUE</b><br/>━━━━━━━━━━━━━<br/>✓ Async Processing<br/>✓ Retry Mechanism<br/>✓ Event Management<br/>✓ Guaranteed Delivery"]
+        end
+    end
+    
+    subgraph CORE["⚡ CORE HEALTHCARE SYSTEM"]
+        direction TB
+        
+        LOG["<b>📊 LOGICAL DATA MODEL</b><br/>━━━━━━━━━━━━━━━━<br/>✓ Canonical Schema<br/>✓ Master Data Registry<br/>✓ Reference Tables<br/>✓ Data Standards"]
+        
+        BUS["<b>🎯 BUSINESS LOGIC</b><br/>━━━━━━━━━━━━━━━━<br/>✓ Process Orchestration<br/>✓ Workflow Management<br/>✓ Rules Engine<br/>✓ Decision Support"]
+        
+        DATA["<b>💾 DATA STORAGE</b><br/>━━━━━━━━━━━━━━━━<br/>✓ Transactional DB<br/>✓ Data Warehouse<br/>✓ Document Store<br/>✓ Backup & Recovery"]
+    end
+    
+    %% Inbound Flow
+    EHR -->|"① REQUEST"| API
+    LAB -->|"① DATA"| API
+    PACS -->|"① IMAGES"| API
+    BIL -->|"① CLAIMS"| API
+    PHAR -->|"① ORDERS"| API
+    
+    API ==>|"② ROUTE"| INTF
+    INTF ==>|"③ TRANSFORM"| MAP
+    MAP ==>|"④ VALIDATE"| VAL
+    VAL ==>|"⑤ ENQUEUE"| QUEUE
+    
+    QUEUE ==>|"⑥ PROCESS"| LOG
+    LOG <==>|"⑦ EXECUTE"| BUS
+    BUS <==>|"⑧ PERSIST"| DATA
+    
+    %% Outbound Flow
+    DATA ==>|"⑨ RETRIEVE"| BUS
+    BUS ==>|"⑩ PREPARE"| LOG
+    LOG ==>|"⑪ RETURN"| QUEUE
+    QUEUE ==>|"⑫ FORMAT"| VAL
+    VAL ==>|"⑬ MAP BACK"| MAP
+    MAP ==>|"⑭ PACKAGE"| INTF
+    INTF ==>|"⑮ DELIVER"| API
+    
+    API -.->|"⑯ RESPONSE"| EHR
+    API -.->|"⑯ RESPONSE"| LAB
+    API -.->|"⑯ RESPONSE"| PACS
+    API -.->|"⑯ RESPONSE"| BIL
+    API -.->|"⑯ RESPONSE"| PHAR
+    
+    %% Styling for External Systems
+    style EXT fill:#2C3E50,stroke:#E74C3C,stroke-width:5px,color:#FFFFFF,font-size:18px,font-weight:bold
+    style EHR fill:#E74C3C,stroke:#C0392B,stroke-width:4px,color:#FFFFFF,font-size:16px,font-weight:bold
+    style LAB fill:#E67E22,stroke:#D35400,stroke-width:4px,color:#FFFFFF,font-size:16px,font-weight:bold
+    style PACS fill:#F39C12,stroke:#E67E22,stroke-width:4px,color:#000000,font-size:16px,font-weight:bold
+    style BIL fill:#F1C40F,stroke:#F39C12,stroke-width:4px,color:#000000,font-size:16px,font-weight:bold
+    style PHAR fill:#2ECC71,stroke:#27AE60,stroke-width:4px,color:#FFFFFF,font-size:16px,font-weight:bold
+    
+    %% Styling for Integration Layer
+    style INT fill:#34495E,stroke:#3498DB,stroke-width:5px,color:#FFFFFF,font-size:18px,font-weight:bold
+    style ENTRY fill:#2980B9,stroke:#2C3E50,stroke-width:3px,color:#FFFFFF
+    style PROC fill:#2980B9,stroke:#2C3E50,stroke-width:3px,color:#FFFFFF
+    style QUEUE_SYS fill:#2980B9,stroke:#2C3E50,stroke-width:3px,color:#FFFFFF
+    
+    style API fill:#3498DB,stroke:#2980B9,stroke-width:4px,color:#FFFFFF,font-size:16px,font-weight:bold
+    style INTF fill:#5DADE2,stroke:#3498DB,stroke-width:4px,color:#000000,font-size:16px,font-weight:bold
+    style MAP fill:#85C1E9,stroke:#5DADE2,stroke-width:4px,color:#000000,font-size:16px,font-weight:bold
+    style VAL fill:#AED6F1,stroke:#85C1E9,stroke-width:4px,color:#000000,font-size:16px,font-weight:bold
+    style QUEUE fill:#1ABC9C,stroke:#16A085,stroke-width:4px,color:#FFFFFF,font-size:16px,font-weight:bold
+    
+    %% Styling for Core System
+    style CORE fill:#27AE60,stroke:#229954,stroke-width:5px,color:#FFFFFF,font-size:18px,font-weight:bold
+    style LOG fill:#52BE80,stroke:#27AE60,stroke-width:4px,color:#FFFFFF,font-size:16px,font-weight:bold
+    style BUS fill:#7DCEA0,stroke:#52BE80,stroke-width:4px,color:#000000,font-size:16px,font-weight:bold
+    style DATA fill:#A9DFBF,stroke:#7DCEA0,stroke-width:4px,color:#000000,font-size:16px,font-weight:bold
+
+```
+---
+### Information Flow Summary
+
+| **Step** | **Component** | **Action** | **Description** |
+| --- | --- | --- | --- |
+| ① | External Systems | Send Request | EHR, Lab, PACS, Billing, or Pharmacy systems initiate data exchange |
+| ② | API Gateway | Route | Authenticates, validates, and routes incoming requests to appropriate services |
+| ③ | Interface Services | Transform | Translates protocols (HL7, FHIR, REST, SOAP) into internal format |
+| ④ | Data Mapping | Validate | Maps external schemas to canonical internal data model |
+| ⑤ | Validation Layer | Enqueue | Performs quality checks, business rule validation, compliance verification |
+| ⑥ | Message Queue | Process | Manages asynchronous processing and ensures reliable delivery |
+| ⑦ | Logical Data Model | Execute | Applies canonical schema and maintains data consistency |
+| ⑧ | Business Logic | Persist | Executes workflows, applies business rules, orchestrates processes |
+| ⑨-⑩ | Data Storage | Retrieve | Stores and retrieves data from transactional DB, warehouse, or document store |
+| ⑪-⑮ | Return Path | Format & Package | Data flows back through validation, mapping, and interface services |
+| ⑯ | API Gateway | Deliver Response | Returns formatted response to requesting external system |
+
+### 🎨 Color Coding Legend
+
+- **🔴 Red (External Systems):** Entry points for data from various healthcare systems
+- **🔵 Blue (Integration Layer):** Processing, transformation, and validation services
+- **🟢 Green (Core System):** Central data model, business logic, and storage
+- **➡️ Solid Arrows:** Inbound data flow (external → core)
+- **⬅️ Dotted Arrows:** Outbound data flow (core → external)
+- **⬌ Double Arrows:** Bidirectional communication between core components
+
+### ✨ Key Architecture Benefits
+
+### 🛡️ Security & Reliability
+
+- Centralized authentication at API Gateway
+- Multi-layer validation prevents data corruption
+- Message queue ensures guaranteed delivery
+- Error handling at each processing stage
+
+### 📈 Scalability & Performance
+
+- Load balancing distributes traffic efficiently
+- Asynchronous processing handles high volumes
+- Rate limiting prevents system overload
+- Horizontal scaling of integration services
+
+### 🔄 Flexibility & Interoperability
+
+- Supports multiple protocols (HL7, FHIR, REST, SOAP)
+- Easy addition of new external systems
+- Canonical data model ensures consistency
+- Protocol-agnostic core system design
+
+<aside>
+💡 **Pro Tip:** This architecture follows industry best practices for healthcare system integration, ensuring compliance with standards like HL7, FHIR, and HIPAA while maintaining flexibility for future enhancements.
+
+</aside>
