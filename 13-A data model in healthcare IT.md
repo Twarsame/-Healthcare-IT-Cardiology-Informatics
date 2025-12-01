@@ -1250,97 +1250,109 @@ When hemodynamic data must be shared with PACS systems or external cardiac regis
 ```mermaid
 graph TB
     subgraph Cupid["🏥 CUPID LOGICAL LAYER"]
-        A["<b>📊 HEMODYNAMIC<br/>MEASUREMENT</b><br/>━━━━━━━━━━━━<br/>RA Pressure: 8 mmHg<br/>DateTime: 2024-11-30<br/>Status: Final"]
-        B["<b>👤 PATIENT<br/>CONTEXT</b><br/>━━━━━━━━━━━━<br/>Patient ID: 12345678<br/>Demographics Linked"]
-        C["<b>🏥 ENCOUNTER<br/>CONTEXT</b><br/>━━━━━━━━━━━━<br/>Encounter ID: 98765432<br/>Cardiac Cath Lab"]
-        D["<b>👨‍⚕️ PERFORMER<br/>DATA</b><br/>━━━━━━━━━━━━<br/>Practitioner: 54321<br/>Cardiologist"]
-        E["<b>🔬 METHOD<br/>DETAILS</b><br/>━━━━━━━━━━━━<br/>Fluid-filled catheter<br/>Calibrated transducer"]
+        A["&lt;b&gt;📊 HEMODYNAMIC MEASUREMENT&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;RA Pressure: 8 mmHg&lt;br/&gt;DateTime: 2024-11-30&lt;br/&gt;Status: Final&lt;br/&gt;Quality: Validated"]
+        B["&lt;b&gt;👤 PATIENT CONTEXT&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Patient ID: 12345678&lt;br/&gt;Name: John Doe&lt;br/&gt;DOB: 1965-03-15&lt;br/&gt;MRN: ABC123"]
+        C["&lt;b&gt;🏥 ENCOUNTER CONTEXT&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Encounter ID: 98765432&lt;br/&gt;Location: Cardiac Cath Lab&lt;br/&gt;Type: Inpatient&lt;br/&gt;Date: 2024-11-30"]
+        D["&lt;b&gt;👨‍⚕️ PERFORMER DATA&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Practitioner ID: 54321&lt;br/&gt;Name: Dr. Smith&lt;br/&gt;Role: Cardiologist&lt;br/&gt;License: MD123456"]
+        E["&lt;b&gt;🔬 METHOD DETAILS&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Device: Fluid-filled catheter&lt;br/&gt;Transducer: Calibrated&lt;br/&gt;Protocol: Standard&lt;br/&gt;Position: Supine"]
     end
 
     subgraph Integration["⚙️ INTEGRATION LAYER"]
-        F["<b>🔄 FHIR<br/>MAPPER</b><br/>━━━━━━━━━━━━<br/>Transform Cupid<br/>objects to FHIR"]
-        G["<b>📋 DATA<br/>VALIDATION</b><br/>━━━━━━━━━━━━<br/>Validate against<br/>FHIR profiles"]
-        H["<b>🔐 SECURITY &<br/>AUTH</b><br/>━━━━━━━━━━━━<br/>OAuth 2.0<br/>Access control"]
+        F["&lt;b&gt;🔄 FHIR MAPPER&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Transform Cupid objects&lt;br/&gt;to FHIR resources&lt;br/&gt;Apply business rules&lt;br/&gt;Handle references"]
+        G["&lt;b&gt;📋 DATA VALIDATION&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Validate against FHIR profiles&lt;br/&gt;Check required fields&lt;br/&gt;Verify data types&lt;br/&gt;Ensure conformance"]
+        H["&lt;b&gt;🔐 SECURITY &amp; AUTH&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;OAuth 2.0 tokens&lt;br/&gt;Access control checks&lt;br/&gt;Audit logging&lt;br/&gt;Encryption in transit"]
     end
 
     subgraph FHIR["📤 FHIR OBSERVATION RESOURCE"]
-        I["<b>🏷️ RESOURCE<br/>TYPE</b><br/>━━━━━━━━━━━━<br/>Observation"]
-        J["<b>📊 CODE</b><br/>━━━━━━━━━━━━<br/>LOINC: 3289-8<br/>RA Pressure"]
-        K["<b>📈 VALUE</b><br/>━━━━━━━━━━━━<br/>8 mmHg<br/>Quantity"]
-        L["<b>👤 SUBJECT</b><br/>━━━━━━━━━━━━<br/>Patient/12345678"]
-        M["<b>🏥 ENCOUNTER</b><br/>━━━━━━━━━━━━<br/>Encounter/98765432"]
-        N["<b>👨‍⚕️ PERFORMER</b><br/>━━━━━━━━━━━━<br/>Practitioner/54321"]
-        O["<b>✅ STATUS</b><br/>━━━━━━━━━━━━<br/>final"]
-        P["<b>📅 TIME</b><br/>━━━━━━━━━━━━<br/>2024-11-30T14:23:15Z"]
+        I["&lt;b&gt;🏷️ RESOURCE TYPE&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;resourceType: Observation&lt;br/&gt;id: obs-12345&lt;br/&gt;meta: profile link"]
+        J["&lt;b&gt;📊 CODE&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;LOINC: 75994-4&lt;br/&gt;Display: RA mean pressure&lt;br/&gt;System: http://loinc.org"]
+        K["&lt;b&gt;📈 VALUE&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;valueQuantity: 8&lt;br/&gt;unit: mmHg&lt;br/&gt;system: UCUM&lt;br/&gt;code: mm[Hg]"]
+        L["&lt;b&gt;👤 SUBJECT&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;reference: Patient/12345678&lt;br/&gt;display: John Doe"]
+        M["&lt;b&gt;🏥 ENCOUNTER&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;reference: Encounter/98765432&lt;br/&gt;display: Cardiac Cath"]
+        N["&lt;b&gt;👨‍⚕️ PERFORMER&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;reference: Practitioner/54321&lt;br/&gt;display: Dr. Smith"]
+        O["&lt;b&gt;✅ STATUS&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;status: final&lt;br/&gt;effectiveDateTime"]
+        P["&lt;b&gt;🔬 METHOD&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;method: Invasive&lt;br/&gt;bodySite: RA&lt;br/&gt;device reference"]
     end
 
     subgraph External["🌐 EXTERNAL SYSTEMS"]
-        Q["<b>📸 PACS<br/>SYSTEM</b><br/>━━━━━━━━━━━━<br/>Image Management<br/>Hemodynamic overlays"]
-        R["<b>📊 CARDIAC<br/>REGISTRY</b><br/>━━━━━━━━━━━━<br/>National Database<br/>Quality Metrics"]
-        S["<b>🏥 EHR<br/>SYSTEMS</b><br/>━━━━━━━━━━━━<br/>Epic, Cerner<br/>Clinical Docs"]
-        T["<b>📈 ANALYTICS<br/>PLATFORM</b><br/>━━━━━━━━━━━━<br/>Research Data<br/>Population Health"]
+        Q["&lt;b&gt;📸 PACS SYSTEM&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Image Management&lt;br/&gt;Hemodynamic overlays&lt;br/&gt;Cine review&lt;br/&gt;Archiving"]
+        R["&lt;b&gt;📊 CARDIAC REGISTRY&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;National Database&lt;br/&gt;Quality Metrics&lt;br/&gt;Outcomes tracking&lt;br/&gt;Benchmarking"]
+        S["&lt;b&gt;🏥 EHR SYSTEMS&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Epic / Cerner&lt;br/&gt;Clinical Documentation&lt;br/&gt;Orders / Results&lt;br/&gt;Patient Portal"]
+        T["&lt;b&gt;📈 ANALYTICS PLATFORM&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Research Data Lake&lt;br/&gt;Population Health&lt;br/&gt;ML / AI Models&lt;br/&gt;Reporting"]
     end
 
-    A -.->|"Measurement Data"| F
-    B -.->|"Patient Info"| F
-    C -.->|"Encounter Info"| F
-    D -.->|"Provider Info"| F
-    E -.->|"Method Info"| F
+    A ==>|"Measurement Data"| F
+    B ==>|"Patient Context"| F
+    C ==>|"Encounter Context"| F
+    D ==>|"Provider Context"| F
+    E ==>|"Method Details"| F
     
     F ==>|"Transform"| G
     G ==>|"Validate"| H
     
-    H ==>|"Create"| I
-    I -->|"Code"| J
-    I -->|"Value"| K
-    I -->|"Subject"| L
-    I -->|"Encounter"| M
-    I -->|"Performer"| N
-    I -->|"Status"| O
-    I -->|"Time"| P
+    H ==>|"Create Resource"| I
+    I ==>|"Add Code"| J
+    I ==>|"Add Value"| K
+    I ==>|"Link Subject"| L
+    I ==>|"Link Encounter"| M
+    I ==>|"Link Performer"| N
+    I ==>|"Set Status"| O
+    I ==>|"Add Method"| P
     
-    J ==>|"Send"| Q
-    K ==>|"Send"| Q
-    L ==>|"Send"| R
-    M ==>|"Send"| R
-    N ==>|"Send"| S
-    O ==>|"Send"| S
-    P ==>|"Send"| T
-    K ==>|"Send"| T
+    J ==>|"FHIR Bundle"| Q
+    K ==>|"FHIR Bundle"| Q
+    L ==>|"FHIR Bundle"| R
+    M ==>|"FHIR Bundle"| R
+    N ==>|"FHIR Bundle"| S
+    O ==>|"FHIR Bundle"| S
+    P ==>|"FHIR Bundle"| T
+    K ==>|"Analytics Feed"| T
 
-    %% Styling for Cupid Logical Layer
-    style Cupid fill:#00897B,stroke:#004D40,stroke-width:5px,color:#FFFFFF
-    style A fill:#26A69A,stroke:#00897B,stroke-width:4px,color:#FFFFFF
-    style B fill:#26A69A,stroke:#00897B,stroke-width:4px,color:#FFFFFF
-    style C fill:#26A69A,stroke:#00897B,stroke-width:4px,color:#FFFFFF
-    style D fill:#26A69A,stroke:#00897B,stroke-width:4px,color:#FFFFFF
-    style E fill:#26A69A,stroke:#00897B,stroke-width:4px,color:#FFFFFF
+    %% Styling for Cupid Logical Layer - Teal/Cyan
+    style Cupid fill:#00838F,stroke:#FFFFFF,stroke-width:6px,color:#FFFFFF
+    style A fill:#00ACC1,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style B fill:#00ACC1,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style C fill:#00ACC1,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style D fill:#00ACC1,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style E fill:#00ACC1,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
     
-    %% Styling for Integration Layer
-    style Integration fill:#F57C00,stroke:#E65100,stroke-width:5px,color:#FFFFFF
-    style F fill:#FF9800,stroke:#F57C00,stroke-width:4px,color:#FFFFFF
-    style G fill:#FF9800,stroke:#F57C00,stroke-width:4px,color:#FFFFFF
-    style H fill:#FF9800,stroke:#F57C00,stroke-width:4px,color:#FFFFFF
+    %% Styling for Integration Layer - Orange
+    style Integration fill:#E65100,stroke:#FFFFFF,stroke-width:6px,color:#FFFFFF
+    style F fill:#FF6F00,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style G fill:#FF6F00,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style H fill:#FF6F00,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
     
-    %% Styling for FHIR Resource
-    style FHIR fill:#1565C0,stroke:#0D47A1,stroke-width:5px,color:#FFFFFF
-    style I fill:#1E88E5,stroke:#1565C0,stroke-width:4px,color:#FFFFFF
-    style J fill:#42A5F5,stroke:#1976D2,stroke-width:4px,color:#000000
-    style K fill:#42A5F5,stroke:#1976D2,stroke-width:4px,color:#000000
-    style L fill:#42A5F5,stroke:#1976D2,stroke-width:4px,color:#000000
-    style M fill:#42A5F5,stroke:#1976D2,stroke-width:4px,color:#000000
-    style N fill:#42A5F5,stroke:#1976D2,stroke-width:4px,color:#000000
-    style O fill:#42A5F5,stroke:#1976D2,stroke-width:4px,color:#000000
-    style P fill:#42A5F5,stroke:#1976D2,stroke-width:4px,color:#000000
+    %% Styling for FHIR Resource - Blue
+    style FHIR fill:#0D47A1,stroke:#FFFFFF,stroke-width:6px,color:#FFFFFF
+    style I fill:#1565C0,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style J fill:#1976D2,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style K fill:#1976D2,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style L fill:#1976D2,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style M fill:#1976D2,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style N fill:#1976D2,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style O fill:#1976D2,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style P fill:#1976D2,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
     
-    %% Styling for External Systems
-    style External fill:#6A1B9A,stroke:#4A148C,stroke-width:5px,color:#FFFFFF
-    style Q fill:#8E24AA,stroke:#6A1B9A,stroke-width:4px,color:#FFFFFF
-    style R fill:#8E24AA,stroke:#6A1B9A,stroke-width:4px,color:#FFFFFF
-    style S fill:#8E24AA,stroke:#6A1B9A,stroke-width:4px,color:#FFFFFF
-    style T fill:#8E24AA,stroke:#6A1B9A,stroke-width:4px,color:#FFFFFF
+    %% Styling for External Systems - Purple
+    style External fill:#4A148C,stroke:#FFFFFF,stroke-width:6px,color:#FFFFFF
+    style Q fill:#6A1B9A,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style R fill:#6A1B9A,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style S fill:#6A1B9A,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
+    style T fill:#6A1B9A,stroke:#FFFFFF,stroke-width:5px,color:#FFFFFF
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### Key Components Explained
 
