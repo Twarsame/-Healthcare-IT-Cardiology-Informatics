@@ -2020,98 +2020,98 @@ Key architectural difference from echo: The temporal dimension is primary. Cath 
 ---
 
 ```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'fontSize':'20px', 'fontFamily':'Arial'}}}%%
 flowchart TD
-    A[Cardiac Catheterization Template] --> B[Procedure Demographics & Access]
-    A --> C[Hemodynamic Data]
-    A --> D[Angiographic Findings]
-    A --> E[Interventional Summary]
-    A --> F[Summary & Assessment]
-    
-    B --> B1[Indication]
-    B --> B2[Vascular Access]
-    B --> B3[Operator & Team Info]
-    
-    C --> C1[Baseline Hemodynamics]
-    C --> C2[Post-Intervention Hemodynamics]
-    C --> C3[Calculated Indices]
-    
-    C1 --> C1A[Chamber/Vessel Dropdown]
-    C1 --> C1B[Systolic mmHg]
-    C1 --> C1C[Diastolic mmHg]
-    C1 --> C1D[Mean mmHg]
-    C1 --> C1E[+ Add Measurement]
-    
-    C2 --> C2A[Same Structure]
-    C2 --> C2B[Repeatable Measurements]
-    
-    C3 --> C3A[Cardiac Output]
-    C3 --> C3B[SVR Auto-calculated]
-    C3 --> C3C[Additional Indices]
-    
-    D --> D1[Left Main Normal/Severity]
-    D --> D2[LAD Proximal Normal/Severity]
-    D --> D3[LAD Mid Normal/Severity]
-    D --> D4[All Coronary Segments]
-    D --> D5[LV Function EF%]
-    D --> D6[Collateral Circulation]
-    
-    E --> E1[Intervention Type]
-    E --> E2[Device Details]
-    E --> E3[Vessel Treated]
-    E --> E4[Result TIMI Flow]
-    E --> E5[Complications]
-    
-    F --> F1[Key Findings]
-    F --> F2[Clinical Interpretation]
-    F --> F3[Recommendations]
-    
-    style A fill:#FF1744,stroke:#C51162,stroke-width:4px,color:#FFFFFF,font-size:18px
-    style B fill:#7C4DFF,stroke:#651FFF,stroke-width:4px,color:#FFFFFF,font-size:16px
-    style C fill:#00E5FF,stroke:#00B8D4,stroke-width:4px,color:#000000,font-size:16px
-    style D fill:#76FF03,stroke:#64DD17,stroke-width:4px,color:#000000,font-size:16px
-    style E fill:#FFEA00,stroke:#FFD600,stroke-width:4px,color:#000000,font-size:16px
-    style F fill:#FF6D00,stroke:#FF3D00,stroke-width:4px,color:#FFFFFF,font-size:16px
-    
-    style B1 fill:#9575CD,stroke:#7E57C2,stroke-width:3px,color:#FFFFFF
-    style B2 fill:#9575CD,stroke:#7E57C2,stroke-width:3px,color:#FFFFFF
-    style B3 fill:#9575CD,stroke:#7E57C2,stroke-width:3px,color:#FFFFFF
-    
-    style C1 fill:#4DD0E1,stroke:#26C6DA,stroke-width:3px,color:#000000
-    style C2 fill:#4DD0E1,stroke:#26C6DA,stroke-width:3px,color:#000000
-    style C3 fill:#4DD0E1,stroke:#26C6DA,stroke-width:3px,color:#000000
-    
-    style D1 fill:#B2FF59,stroke:#9CCC65,stroke-width:3px,color:#000000
-    style D2 fill:#B2FF59,stroke:#9CCC65,stroke-width:3px,color:#000000
-    style D3 fill:#B2FF59,stroke:#9CCC65,stroke-width:3px,color:#000000
-    style D4 fill:#B2FF59,stroke:#9CCC65,stroke-width:3px,color:#000000
-    style D5 fill:#B2FF59,stroke:#9CCC65,stroke-width:3px,color:#000000
-    style D6 fill:#B2FF59,stroke:#9CCC65,stroke-width:3px,color:#000000
-    
-    style E1 fill:#FFF176,stroke:#FDD835,stroke-width:3px,color:#000000
-    style E2 fill:#FFF176,stroke:#FDD835,stroke-width:3px,color:#000000
-    style E3 fill:#FFF176,stroke:#FDD835,stroke-width:3px,color:#000000
-    style E4 fill:#FFF176,stroke:#FDD835,stroke-width:3px,color:#000000
-    style E5 fill:#FFF176,stroke:#FDD835,stroke-width:3px,color:#000000
-    
-    style F1 fill:#FFB74D,stroke:#FF9800,stroke-width:3px,color:#000000
-    style F2 fill:#FFB74D,stroke:#FF9800,stroke-width:3px,color:#000000
-    style F3 fill:#FFB74D,stroke:#FF9800,stroke-width:3px,color:#000000
-    
-    style C1A fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
-    style C1B fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
-    style C1C fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
-    style C1D fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
-    style C1E fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
-    
-    style C2A fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
-    style C2B fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
-    
-    style C3A fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
-    style C3B fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
-    style C3C fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
+    A["🫀 CARDIAC CATHETERIZATION<br/>TEMPLATE"] --> B["📋 PROCEDURE<br/>DEMOGRAPHICS & ACCESS"]
+    A --> C["📊 HEMODYNAMIC<br/>DATA"]
+    A --> D["🔍 ANGIOGRAPHIC<br/>FINDINGS"]
+    A --> E["⚕️ INTERVENTIONAL<br/>SUMMARY"]
+    A --> F["📝 SUMMARY &<br/>ASSESSMENT"]
 
+    B ==> B1["🎯 Indication"]
+    B ==> B2["💉 Vascular Access"]
+    B ==> B3["👨‍⚕️ Operator & Team Info"]
 
+    C ==> C1["📈 Baseline<br/>Hemodynamics"]
+    C ==> C2["📉 Post-Intervention<br/>Hemodynamics"]
+    C ==> C3["🧮 Calculated<br/>Indices"]
 
+    C1 -.-> C1A["🏥 Chamber/Vessel<br/>Dropdown"]
+    C1 -.-> C1B["⬆️ Systolic mmHg"]
+    C1 -.-> C1C["⬇️ Diastolic mmHg"]
+    C1 -.-> C1D["➡️ Mean mmHg"]
+    C1 -.-> C1E["➕ Add Measurement"]
+
+    C2 -.-> C2A["🔄 Same Structure"]
+    C2 -.-> C2B["🔁 Repeatable<br/>Measurements"]
+
+    C3 -.-> C3A["❤️ Cardiac Output"]
+    C3 -.-> C3B["🔢 SVR Auto-calculated"]
+    C3 -.-> C3C["📊 Additional Indices"]
+
+    D ==> D1["🌳 Left Main<br/>Normal/Severity"]
+    D ==> D2["🌿 LAD Proximal<br/>Normal/Severity"]
+    D ==> D3["🍃 LAD Mid<br/>Normal/Severity"]
+    D ==> D4["🔗 All Coronary<br/>Segments"]
+    D ==> D5["💪 LV Function EF%"]
+    D ==> D6["🔀 Collateral<br/>Circulation"]
+
+    E ==> E1["🛠️ Intervention Type"]
+    E ==> E2["⚙️ Device Details"]
+    E ==> E3["🩸 Vessel Treated"]
+    E ==> E4["✅ Result TIMI Flow"]
+    E ==> E5["⚠️ Complications"]
+
+    F ==> F1["🔑 Key Findings"]
+    F ==> F2["🧠 Clinical<br/>Interpretation"]
+    F ==> F3["💡 Recommendations"]
+
+    style A fill:#FF1744,stroke:#C51162,stroke-width:6px,color:#FFFFFF,font-size:24px,font-weight:bold
+    style B fill:#7C4DFF,stroke:#651FFF,stroke-width:5px,color:#FFFFFF,font-size:20px,font-weight:bold
+    style C fill:#00E5FF,stroke:#00B8D4,stroke-width:5px,color:#000000,font-size:20px,font-weight:bold
+    style D fill:#76FF03,stroke:#64DD17,stroke-width:5px,color:#000000,font-size:20px,font-weight:bold
+    style E fill:#FFEA00,stroke:#FFD600,stroke-width:5px,color:#000000,font-size:20px,font-weight:bold
+    style F fill:#FF6D00,stroke:#FF3D00,stroke-width:5px,color:#FFFFFF,font-size:20px,font-weight:bold
+
+    style B1 fill:#B388FF,stroke:#7C4DFF,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style B2 fill:#B388FF,stroke:#7C4DFF,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style B3 fill:#B388FF,stroke:#7C4DFF,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+
+    style C1 fill:#18FFFF,stroke:#00E5FF,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style C2 fill:#18FFFF,stroke:#00E5FF,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style C3 fill:#18FFFF,stroke:#00E5FF,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+
+    style D1 fill:#CCFF90,stroke:#76FF03,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style D2 fill:#CCFF90,stroke:#76FF03,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style D3 fill:#CCFF90,stroke:#76FF03,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style D4 fill:#CCFF90,stroke:#76FF03,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style D5 fill:#CCFF90,stroke:#76FF03,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style D6 fill:#CCFF90,stroke:#76FF03,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+
+    style E1 fill:#FFFF8D,stroke:#FFEA00,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style E2 fill:#FFFF8D,stroke:#FFEA00,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style E3 fill:#FFFF8D,stroke:#FFEA00,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style E4 fill:#FFFF8D,stroke:#FFEA00,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style E5 fill:#FFFF8D,stroke:#FFEA00,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+
+    style F1 fill:#FFAB40,stroke:#FF6D00,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style F2 fill:#FFAB40,stroke:#FF6D00,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+    style F3 fill:#FFAB40,stroke:#FF6D00,stroke-width:4px,color:#000000,font-size:18px,font-weight:bold
+
+    style C1A fill:#84FFFF,stroke:#18FFFF,stroke-width:3px,color:#000000,font-size:16px
+    style C1B fill:#84FFFF,stroke:#18FFFF,stroke-width:3px,color:#000000,font-size:16px
+    style C1C fill:#84FFFF,stroke:#18FFFF,stroke-width:3px,color:#000000,font-size:16px
+    style C1D fill:#84FFFF,stroke:#18FFFF,stroke-width:3px,color:#000000,font-size:16px
+    style C1E fill:#84FFFF,stroke:#18FFFF,stroke-width:3px,color:#000000,font-size:16px
+
+    style C2A fill:#84FFFF,stroke:#18FFFF,stroke-width:3px,color:#000000,font-size:16px
+    style C2B fill:#84FFFF,stroke:#18FFFF,stroke-width:3px,color:#000000,font-size:16px
+
+    style C3A fill:#84FFFF,stroke:#18FFFF,stroke-width:3px,color:#000000,font-size:16px
+    style C3B fill:#84FFFF,stroke:#18FFFF,stroke-width:3px,color:#000000,font-size:16px
+    style C3C fill:#84FFFF,stroke:#18FFFF,stroke-width:3px,color:#000000,font-size:16px
+
+    linkStyle default stroke:#333333,stroke-width:4px
 ```
 
 ## Step-by-Step Breakdown of the Cardiac Catheterization Template
@@ -2225,27 +2225,29 @@ This is the root container that holds all procedure documentation. Think of it a
 
 ```mermaid
 flowchart LR
-    A["🏥 START:<br/>Patient arrives<br/>in Cath Lab"] --> B["📋 SETUP:<br/>Document<br/>Demographics"]
-    B --> C["💉 ACCESS:<br/>Insert catheter"]
-    C --> D["📈 BASELINE:<br/>Measure<br/>pressures"]
-    D --> E["🔍 IMAGING:<br/>Angiography"]
-    E --> F{"🤔 Treatment<br/>needed?"}
-    F -->|Yes| G["🛠️ INTERVENTION:<br/>Stent/Balloon"]
-    F -->|No| H["📝 SUMMARY:<br/>Document<br/>findings"]
-    G --> I["📈 POST:<br/>Measure<br/>pressures again"]
+    A["🏥 START<br/><br/>Patient Arrives<br/>in Cath Lab"] --> B["📋 SETUP<br/><br/>Document Patient<br/>Demographics"]
+    B --> C["💉 ACCESS<br/><br/>Insert Catheter<br/>& Establish Access"]
+    C --> D["📈 BASELINE<br/><br/>Measure Hemodynamic<br/>Pressures"]
+    D --> E["🔍 IMAGING<br/><br/>Perform Coronary<br/>Angiography"]
+    E --> F{"🤔 DECISION<br/><br/>Is Intervention<br/>Required?"}
+    F -->|"✓ YES"| G["🛠️ INTERVENTION<br/><br/>Deploy Stent or<br/>Balloon Angioplasty"]
+    F -->|"✗ NO"| H["📝 SUMMARY<br/><br/>Document All<br/>Findings & Data"]
+    G --> I["📈 POST-INTERVENTION<br/><br/>Reassess Pressures<br/>& Verify Results"]
     I --> H
-    H --> J["✅ COMPLETE:<br/>Recommendations"]
-    
-    style A fill:#FF1744,stroke:#C51162,stroke-width:3px,color:#FFFFFF
-    style B fill:#7C4DFF,stroke:#651FFF,stroke-width:3px,color:#FFFFFF
-    style C fill:#7C4DFF,stroke:#651FFF,stroke-width:3px,color:#FFFFFF
-    style D fill:#00E5FF,stroke:#00B8D4,stroke-width:3px,color:#000000
-    style E fill:#76FF03,stroke:#64DD17,stroke-width:3px,color:#000000
-    style F fill:#FFEA00,stroke:#FFD600,stroke-width:3px,color:#000000
-    style G fill:#FFEA00,stroke:#FFD600,stroke-width:3px,color:#000000
-    style H fill:#FF6D00,stroke:#FF3D00,stroke-width:3px,color:#FFFFFF
-    style I fill:#00E5FF,stroke:#00B8D4,stroke-width:3px,color:#000000
-    style J fill:#4CAF50,stroke:#388E3C,stroke-width:3px,color:#FFFFFF
+    H --> J["✅ COMPLETE<br/><br/>Finalize Report &<br/>Provide Recommendations"]
+
+    style A fill:#e91e63,stroke:#880e4f,stroke-width:4px,color:#ffffff,font-size:16px,font-weight:bold
+    style B fill:#9c27b0,stroke:#4a148c,stroke-width:4px,color:#ffffff,font-size:16px,font-weight:bold
+    style C fill:#673ab7,stroke:#311b92,stroke-width:4px,color:#ffffff,font-size:16px,font-weight:bold
+    style D fill:#2196f3,stroke:#0d47a1,stroke-width:4px,color:#ffffff,font-size:16px,font-weight:bold
+    style E fill:#00bcd4,stroke:#006064,stroke-width:4px,color:#ffffff,font-size:16px,font-weight:bold
+    style F fill:#ffc107,stroke:#ff6f00,stroke-width:4px,color:#000000,font-size:16px,font-weight:bold
+    style G fill:#ff9800,stroke:#e65100,stroke-width:4px,color:#ffffff,font-size:16px,font-weight:bold
+    style H fill:#ff5722,stroke:#bf360c,stroke-width:4px,color:#ffffff,font-size:16px,font-weight:bold
+    style I fill:#03a9f4,stroke:#01579b,stroke-width:4px,color:#ffffff,font-size:16px,font-weight:bold
+    style J fill:#4caf50,stroke:#1b5e20,stroke-width:4px,color:#ffffff,font-size:16px,font-weight:bold
+
+    linkStyle default stroke:#333,stroke-width:3px
 
 ```
 
