@@ -1808,3 +1808,498 @@ When it was measured (within the procedure timeline)
 Where it was measured (LV chamber, aorta, right atrium, etc.)
 By whom (operator, assistant, equipment)
 In what context (baseline vs. post-intervention; spontaneous rhythm vs. pacing)
+
+---
+```mermaid
+graph TD
+    A["Cardiac Catheterization Procedure<br/>(Entity: Procedure, includes start/end time)"] --> |Contains| B["Procedural Phase<br/>(Access Phase, Hemodynamic Phase, Angiographic Phase, Interventional Phase)"]
+    B --> |Contains| C["Hemodynamic Measurement Set<br/>(Timestamp + location specific)"]
+    C --> |Contains| D["Pressure Measurement<br/>(Chamber/Vessel name, Systolic, Diastolic, Mean, Waveform image)"]
+    C --> |Contains| E["Calculated Index<br/>(Cardiac Output, SVR, PVR, etc - derived from measurements)"]
+    
+    B --> |Contains| F["Angiographic Finding<br/>(Vessel, Segment, Finding - with image reference)"]
+    B --> |Contains| G["Intervention Event<br/>(Device deployed, Balloon inflated, Stent placed - with timestamp)"]
+    
+    A --> |Contains| H["Vascular Access<br/>(Site, Sheath size, Closure method)"]
+    A --> |Contains| I["Procedure Summary<br/>(Indication, Findings, Plan, Complication status)"]
+    
+    style A fill:#0066cc,stroke:#003d7a,stroke-width:3px,color:#ffffff
+    style B fill:#9c27b0,stroke:#6a1b7a,stroke-width:2px,color:#ffffff
+    style C fill:#ff6f00,stroke:#c43e00,stroke-width:2px,color:#ffffff
+    style D fill:#ffa726,stroke:#f57c00,stroke-width:2px,color:#000000
+    style E fill:#ffb74d,stroke:#f57c00,stroke-width:2px,color:#000000
+    style F fill:#e91e63,stroke:#ad1457,stroke-width:2px,color:#ffffff
+    style G fill:#ec407a,stroke:#c2185b,stroke-width:2px,color:#ffffff
+    style H fill:#00897b,stroke:#00695c,stroke-width:2px,color:#ffffff
+    style I fill:#43a047,stroke:#2e7d32,stroke-width:2px,color:#ffffff
+
+
+```
+## Cardiac Catheterization Data Model: Step-by-Step Breakdown
+
+This diagram illustrates how cardiac catheterization data is structured and organized. Let's walk through each component:
+
+---
+
+### 🏥 Level 1: The Procedure (Top Level)
+
+<aside>
+
+🔵 **Cardiac Catheterization Procedure**
+
+This is the master entity that encompasses everything that happens during the catheterization. It includes:
+
+- Start and end timestamps
+- Unique procedure identifier
+- Patient information linkage
+</aside>
+
+---
+
+### ⚙️ Level 2: Major Components
+
+The procedure contains four main branches:
+
+<aside>
+
+🟣 **1. Procedural Phases**
+
+The procedure is divided into distinct phases:
+
+- **Access Phase:** Gaining vascular access
+- **Hemodynamic Phase:** Measuring pressures and flows
+- **Angiographic Phase:** Taking contrast images
+- **Interventional Phase:** Performing therapeutic actions
+</aside>
+
+<aside>
+
+🟢 **2. Vascular Access**
+
+Documents how the catheter entered the body:
+
+- Access site (femoral, radial, etc.)
+- Sheath size used
+- Closure method applied
+</aside>
+
+<aside>
+
+🟢 **3. Procedure Summary**
+
+High-level overview including:
+
+- Clinical indication for the procedure
+- Key findings
+- Treatment plan
+- Complication status
+</aside>
+
+---
+
+### 📈 Level 3: Phase-Specific Data
+
+Each procedural phase can contain different types of data:
+
+<aside>
+
+🟠 **Hemodynamic Measurement Sets**
+
+Collections of measurements taken at specific times and locations:
+
+- 📍 Timestamp of when measurements were taken
+- 📍 Location (which chamber or vessel)
+- 📍 Context (baseline vs. post-intervention; spontaneous vs. pacing)
+</aside>
+
+<aside>
+
+🔴 **Angiographic Findings**
+
+Visual observations from contrast imaging:
+
+- 🎯 Vessel name
+- 🎯 Specific segment
+- 🎯 Pathological finding (stenosis, occlusion, etc.)
+- 🎯 Reference to image/video
+</aside>
+
+<aside>
+
+🔴 **Intervention Events**
+
+Therapeutic actions performed:
+
+- 🛠️ Device deployed (type and model)
+- 🛠️ Balloon inflations (pressure, duration)
+- 🛠️ Stent placements (size, location)
+- 🛠️ Timestamp for each action
+</aside>
+
+---
+
+### 📊 Level 4: Detailed Measurements
+
+Within each Hemodynamic Measurement Set, you'll find:
+
+<aside>
+
+🟠 **Pressure Measurements**
+
+Specific pressure values recorded:
+
+- 📌 Chamber or vessel name
+- 📌 Systolic pressure (peak)
+- 📌 Diastolic pressure (lowest)
+- 📌 Mean pressure (average)
+- 📌 Waveform image or tracing
+</aside>
+
+<aside>
+
+🟡 **Calculated Indices**
+
+Derived values computed from measurements:
+
+- 💡 Cardiac Output (CO)
+- 💡 Systemic Vascular Resistance (SVR)
+- 💡 Pulmonary Vascular Resistance (PVR)
+- 💡 Cardiac Index (CI)
+- 💡 Valve areas and gradients
+</aside>
+
+---
+
+### 🔑 Key Architectural Principle
+
+<aside>
+
+💡 **Hierarchical Context Preservation**
+
+Unlike echo reports where measurements are often listed without context, this structure maintains:
+
+- ✅ **When** the measurement was taken (timestamp within phase)
+- ✅ **Where** it was taken (specific chamber/vessel)
+- ✅ **Under what conditions** (baseline, post-intervention, during pacing)
+- ✅ **Relationship to other events** (before/after intervention)
+</aside>
+
+---
+
+### 🎯 Data Flow Summary
+
+1. **Procedure initiated** → Master record created with start time
+2. **Access gained** → Vascular access details recorded
+3. **Phase begins** → Procedural phase initiated (e.g., Hemodynamic Phase)
+4. **Measurements taken** → Measurement set created with timestamp and location
+5. **Individual pressures recorded** → Each chamber pressure documented
+6. **Calculations performed** → Derived indices computed and stored
+7. **Images acquired** → Angiographic findings documented with image references
+8. **Interventions performed** → Each device/action timestamped and recorded
+9. **Procedure completed** → Summary generated with end time
+
+---
+
+<aside>
+
+⚠️ **Why This Structure Matters**
+
+This hierarchical approach enables:
+
+- 🔍 Precise querying (e.g., "Show all post-intervention pressures")
+- 📈 Trend analysis over time within the same procedure
+- 🔗 Clear linkage between findings and interventions
+- 📋 Comprehensive audit trails for quality assurance
+- 🤖 Machine learning on properly contextualized data
+</aside>
+
+---
+Key architectural difference from echo: The temporal dimension is primary. Cath documentation is procedure-centric, not measurement-centric.
+3B.3 Cupid Template Architecture for Cath
+
+---
+
+```mermaid
+flowchart TD
+    A[Cardiac Catheterization Template] --> B[Procedure Demographics & Access]
+    A --> C[Hemodynamic Data]
+    A --> D[Angiographic Findings]
+    A --> E[Interventional Summary]
+    A --> F[Summary & Assessment]
+    
+    B --> B1[Indication]
+    B --> B2[Vascular Access]
+    B --> B3[Operator & Team Info]
+    
+    C --> C1[Baseline Hemodynamics]
+    C --> C2[Post-Intervention Hemodynamics]
+    C --> C3[Calculated Indices]
+    
+    C1 --> C1A[Chamber/Vessel Dropdown]
+    C1 --> C1B[Systolic mmHg]
+    C1 --> C1C[Diastolic mmHg]
+    C1 --> C1D[Mean mmHg]
+    C1 --> C1E[+ Add Measurement]
+    
+    C2 --> C2A[Same Structure]
+    C2 --> C2B[Repeatable Measurements]
+    
+    C3 --> C3A[Cardiac Output]
+    C3 --> C3B[SVR Auto-calculated]
+    C3 --> C3C[Additional Indices]
+    
+    D --> D1[Left Main Normal/Severity]
+    D --> D2[LAD Proximal Normal/Severity]
+    D --> D3[LAD Mid Normal/Severity]
+    D --> D4[All Coronary Segments]
+    D --> D5[LV Function EF%]
+    D --> D6[Collateral Circulation]
+    
+    E --> E1[Intervention Type]
+    E --> E2[Device Details]
+    E --> E3[Vessel Treated]
+    E --> E4[Result TIMI Flow]
+    E --> E5[Complications]
+    
+    F --> F1[Key Findings]
+    F --> F2[Clinical Interpretation]
+    F --> F3[Recommendations]
+    
+    style A fill:#FF1744,stroke:#C51162,stroke-width:4px,color:#FFFFFF,font-size:18px
+    style B fill:#7C4DFF,stroke:#651FFF,stroke-width:4px,color:#FFFFFF,font-size:16px
+    style C fill:#00E5FF,stroke:#00B8D4,stroke-width:4px,color:#000000,font-size:16px
+    style D fill:#76FF03,stroke:#64DD17,stroke-width:4px,color:#000000,font-size:16px
+    style E fill:#FFEA00,stroke:#FFD600,stroke-width:4px,color:#000000,font-size:16px
+    style F fill:#FF6D00,stroke:#FF3D00,stroke-width:4px,color:#FFFFFF,font-size:16px
+    
+    style B1 fill:#9575CD,stroke:#7E57C2,stroke-width:3px,color:#FFFFFF
+    style B2 fill:#9575CD,stroke:#7E57C2,stroke-width:3px,color:#FFFFFF
+    style B3 fill:#9575CD,stroke:#7E57C2,stroke-width:3px,color:#FFFFFF
+    
+    style C1 fill:#4DD0E1,stroke:#26C6DA,stroke-width:3px,color:#000000
+    style C2 fill:#4DD0E1,stroke:#26C6DA,stroke-width:3px,color:#000000
+    style C3 fill:#4DD0E1,stroke:#26C6DA,stroke-width:3px,color:#000000
+    
+    style D1 fill:#B2FF59,stroke:#9CCC65,stroke-width:3px,color:#000000
+    style D2 fill:#B2FF59,stroke:#9CCC65,stroke-width:3px,color:#000000
+    style D3 fill:#B2FF59,stroke:#9CCC65,stroke-width:3px,color:#000000
+    style D4 fill:#B2FF59,stroke:#9CCC65,stroke-width:3px,color:#000000
+    style D5 fill:#B2FF59,stroke:#9CCC65,stroke-width:3px,color:#000000
+    style D6 fill:#B2FF59,stroke:#9CCC65,stroke-width:3px,color:#000000
+    
+    style E1 fill:#FFF176,stroke:#FDD835,stroke-width:3px,color:#000000
+    style E2 fill:#FFF176,stroke:#FDD835,stroke-width:3px,color:#000000
+    style E3 fill:#FFF176,stroke:#FDD835,stroke-width:3px,color:#000000
+    style E4 fill:#FFF176,stroke:#FDD835,stroke-width:3px,color:#000000
+    style E5 fill:#FFF176,stroke:#FDD835,stroke-width:3px,color:#000000
+    
+    style F1 fill:#FFB74D,stroke:#FF9800,stroke-width:3px,color:#000000
+    style F2 fill:#FFB74D,stroke:#FF9800,stroke-width:3px,color:#000000
+    style F3 fill:#FFB74D,stroke:#FF9800,stroke-width:3px,color:#000000
+    
+    style C1A fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
+    style C1B fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
+    style C1C fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
+    style C1D fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
+    style C1E fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
+    
+    style C2A fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
+    style C2B fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
+    
+    style C3A fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
+    style C3B fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
+    style C3C fill:#80DEEA,stroke:#26C6DA,stroke-width:2px,color:#000000
+
+
+
+```
+
+## Step-by-Step Breakdown of the Cardiac Catheterization Template
+
+Let's walk through each component of the template architecture with visual explanations and icons:
+
+---
+
+### 🔴 Level 1: Main Template Container
+
+<aside>
+
+🏥 **Cardiac Catheterization Template**
+
+This is the root container that holds all procedure documentation. Think of it as the "master folder" for the entire cath lab procedure.
+
+</aside>
+
+---
+
+### 🟣 Level 2: Major Sections (5 Primary Categories)
+
+1️⃣ 📋 **Procedure Demographics & Access**
+
+<aside>
+
+**Purpose:** Captures basic procedure information and how we accessed the patient
+
+**Contains:**
+
+- 📝 **Indication** – Why are we doing this procedure?
+- 💉 **Vascular Access** – Where did we insert (radial/femoral), what size sheath, how did we close?
+- 👨‍⚕️ **Operator & Team Info** – Who performed the procedure?
+</aside>
+
+2️⃣ 📈 **Hemodynamic Data**
+
+<aside>
+
+**Purpose:** Records all pressure measurements and calculations from inside the heart and vessels
+
+**Three Key Subsections:**
+
+**🔵 Baseline Hemodynamics (Before Intervention)**
+
+- 🫀 Chamber/Vessel selector (LV, Aorta, RA, RV, PA)
+- ⬆️ Systolic pressure (mmHg)
+- ⬇️ Diastolic pressure (mmHg)
+- ➡️ Mean pressure (mmHg)
+- ➕ Add more measurements button
+
+**🟢 Post-Intervention Hemodynamics (After Intervention)**
+
+- Same structure as baseline for comparison
+- Can repeat measurements to track changes
+
+**🧮 Calculated Indices**
+
+- 💓 Cardiac Output (auto-calculated or manual)
+- 🔄 SVR (Systemic Vascular Resistance – auto-calculated)
+- 📊 Additional indices as configured
+</aside>
+
+3️⃣ 🔍 **Angiographic Findings**
+
+<aside>
+
+**Purpose:** Documents what we SEE on the X-ray images of coronary arteries
+
+**Visual Assessment of Each Vessel:**
+
+- 🫁 **Left Main** → Normal or severity dropdown
+- 📍 **LAD Proximal** → Normal or severity dropdown
+- 📍 **LAD Mid** → Normal or severity dropdown
+- 📍 **All other coronary segments** → Systematic evaluation
+- 💪 **LV Function** → Ejection fraction % from ventriculography
+- 🔗 **Collateral Circulation** → Present/Absent (natural bypasses)
+</aside>
+
+4️⃣ 🛠️ **Interventional Summary**
+
+<aside>
+
+**Purpose:** Records what we DID to treat blockages (if applicable)
+
+**Intervention Details:**
+
+- ⚙️ **Intervention Type** → PCI, Balloon, Stent (dropdown)
+- 🔧 **Device Details** → Stent size, type, manufacturer
+- 🎯 **Vessel Treated** → Which artery (LAD, RCA, etc.)
+- ✅ **Result** → TIMI flow grade (blood flow assessment), residual stenosis
+- ⚠️ **Complications** → None or specific complications documented
+</aside>
+
+5️⃣ 📝 **Summary & Assessment**
+
+<aside>
+
+**Purpose:** Brings everything together with clinical interpretation
+
+**Final Documentation:**
+
+- 🔑 **Key Findings** → Narrative summary of most important discoveries
+- 🧠 **Clinical Interpretation** → What do these findings mean for the patient?
+- 💊 **Recommendations** → Next steps in patient care
+</aside>
+
+---
+
+### 🎯 Visual Flow of Information
+
+```mermaid
+flowchart LR
+    A["🏥 START:<br/>Patient arrives<br/>in Cath Lab"] --> B["📋 SETUP:<br/>Document<br/>Demographics"]
+    B --> C["💉 ACCESS:<br/>Insert catheter"]
+    C --> D["📈 BASELINE:<br/>Measure<br/>pressures"]
+    D --> E["🔍 IMAGING:<br/>Angiography"]
+    E --> F{"🤔 Treatment<br/>needed?"}
+    F -->|Yes| G["🛠️ INTERVENTION:<br/>Stent/Balloon"]
+    F -->|No| H["📝 SUMMARY:<br/>Document<br/>findings"]
+    G --> I["📈 POST:<br/>Measure<br/>pressures again"]
+    I --> H
+    H --> J["✅ COMPLETE:<br/>Recommendations"]
+    
+    style A fill:#FF1744,stroke:#C51162,stroke-width:3px,color:#FFFFFF
+    style B fill:#7C4DFF,stroke:#651FFF,stroke-width:3px,color:#FFFFFF
+    style C fill:#7C4DFF,stroke:#651FFF,stroke-width:3px,color:#FFFFFF
+    style D fill:#00E5FF,stroke:#00B8D4,stroke-width:3px,color:#000000
+    style E fill:#76FF03,stroke:#64DD17,stroke-width:3px,color:#000000
+    style F fill:#FFEA00,stroke:#FFD600,stroke-width:3px,color:#000000
+    style G fill:#FFEA00,stroke:#FFD600,stroke-width:3px,color:#000000
+    style H fill:#FF6D00,stroke:#FF3D00,stroke-width:3px,color:#FFFFFF
+    style I fill:#00E5FF,stroke:#00B8D4,stroke-width:3px,color:#000000
+    style J fill:#4CAF50,stroke:#388E3C,stroke-width:3px,color:#FFFFFF
+
+```
+
+---
+
+### 🎨 Color-Coded Information Hierarchy
+
+| **Color** | **Section** | **Purpose** | **Icon** |
+| --- | --- | --- | --- |
+| 🔴 Red | Main Template | Overall container | 🏥 |
+| 🟣 Purple | Demographics | Who, when, where, how | 📋 |
+| 🔵 Blue | Hemodynamics | Pressure measurements & calculations | 📈 |
+| 🟢 Green | Angiography | Visual findings from images | 🔍 |
+| 🟡 Yellow | Intervention | Treatment performed | 🛠️ |
+| 🟠 Orange | Summary | Clinical interpretation & next steps | 📝 |
+
+---
+
+### 🔄 Key Data Relationships
+
+<aside>
+
+💡 **How Sections Connect:**
+
+📈 **Hemodynamics** → Measured at specific timestamps
+
+- Baseline readings BEFORE intervention
+- Post-intervention readings AFTER treatment
+- Allows direct comparison of treatment effectiveness
+
+🔍 **Angiographic Findings** → Determines if intervention needed
+
+- If significant blockage found → Proceed to Intervention section
+- If minimal disease → Skip to Summary
+
+🛠️ **Intervention** → Links specific device to specific vessel
+
+- Directly references vessel from Angiographic Findings
+- Results feed into Summary & Assessment
+</aside>
+
+---
+
+### ✨ Why This Structure Matters
+
+<aside>
+
+🎯 **Clinical Benefits:**
+
+- 🔍 **Precision Querying** – "Show me all LAD interventions with TIMI 3 flow"
+- 📊 **Trend Analysis** – Compare hemodynamics before/after across patients
+- 🔗 **Clear Linkage** – Every intervention is tied to specific findings
+- 📋 **Audit Trail** – Complete documentation for quality assurance
+- 🤖 **ML-Ready** – Structured data enables machine learning applications
+- ⚡ **Efficiency** – Dropdown menus reduce documentation time
+- 🎓 **Standardization** – Everyone documents the same way
+</aside>
